@@ -1,0 +1,18 @@
+{
+  "name": "netlify-playwright-tests",
+  "version": "1.0.0",
+  "description": "Automated Playwright E2E tests for Netlify website",
+  "scripts": {
+    "test": "npx playwright test",
+    "test-ui": "npx playwright test --ui",
+    "test:headed": "npx playwright test --headed",
+    "test:report": "npx playwright show-report"
+  },
+  "author": "Aleksandar Milenkovic",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.43.1",
+    "@types/node": "^22.15.18",
+    "typescript": "^5.0.0"
+  }
+}
