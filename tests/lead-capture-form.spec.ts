@@ -8,18 +8,19 @@ test.describe('Lead Capture Newsletter Form', () => {
 	}) => {
 		await homePage.goto()
 		await homePage.isFormVisible()
-		await homePage.subscribeToNewsletter(testData.email)
+		await homePage.fillSubscriptionEmail(testData.email)
+		await homePage.subscribeToNewsletter()
 		await homePage.subscriptionConfirmed()
 	})
 
 	test('should validate and reject invalid email', async ({ homePage }) => {
 		await homePage.goto()
 		await homePage.isFormVisible()
-		await homePage.submitNewsletterAndWaitForResponse(
+		const invalidEmailResponseBody = await homePage.waitForEmailValidationResponse(
 			homePage.emailCheckEndpoint,
 			testData.invalidEmail,
 			'POST'
 		)
-		await homePage.checkInvalidEmail()
+		await homePage.assertInvalidEmailResponse(invalidEmailResponseBody, testData.invalidEmail)
 	})
 })
