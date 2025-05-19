@@ -37,12 +37,11 @@ export class HomePage {
     await expect(this.newsletterForm).toBeVisible();
   }
 
-  async expectFeedback(contains: string) {
-    await expect(this.feedbackMsg).toContainText(contains, { timeout: 5000 });
+  async fillSubscriptionEmail(email: string) {
+    await this.emailInput.fill(email);
   }
 
-  async subscribeToNewsletter(email: string) {
-    await this.emailInput.fill(email);
+  async subscribeToNewsletter() {
     await this.subscribeButton.click();
   }
 
@@ -59,29 +58,23 @@ export class HomePage {
    * @param enpointUrl Part of the endpoint URL to identify the request (e.g. '/newsletter/').
    * @returns The parsed response body.
    */
-  async submitNewsletterAndWaitForResponse(enpointUrl: string, email: string, method: string) {
+  async waitForEmailValidationResponse(endpointUrl: string, email: string, method: string) {
     const [response] = await Promise.all([
       this.page.waitForResponse(resp =>
-        resp.url().includes(enpointUrl) && resp.request().method() === method
+        resp.url().includes(endpointUrl) && resp.request().method() === method
       ),
-      email
+      this.fillSubscriptionEmail(email)
     ]);
-    return response.json();
+    return await response.json();
   }
 
-  async checkInvalidEmail() {
-    const testData = JSON.parse(JSON.stringify(require('../data/email.json')))
-    const responseBody = await this.submitNewsletterAndWaitForResponse(
-			this.emailCheckEndpoint,
-			testData.invalidEmail,
-			'POST'
-		)
+  async assertInvalidEmailResponse(responseBody: any, email: string) {
     expect(responseBody).toMatchObject({
 			success: false,
-			email: testData.invalidEmail,
+			email: email,
 			emailShouldResubscribe: false,
 			emailFree: false,
-			emailSuggestion: testData.invalidEmail + 'a',
+			emailSuggestion: email + 'a',
 			isRateLimited: null
 		})
   }
