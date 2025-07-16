@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="API Automation Test Suite" parallel="methods" thread-count="5">
+    
+    <parameter name="environment" value="development"/>
+    
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    
+    <test name="User Management Tests" preserve-order="false">
+        <classes>
+            <class name="com.api.automation.tests.UserGetTests"/>
+            <class name="com.api.automation.tests.UserPostTests"/>
+            <class name="com.api.automation.tests.UserPatchTests"/>
+            <class name="com.api.automation.tests.UserDeleteTests"/>
+        </classes>
+    </test>
+    
+    <!-- Test groups for different test types -->
+    <test name="Smoke Tests" preserve-order="false">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.api.automation.tests.UserGetTests"/>
+            <class name="com.api.automation.tests.UserPostTests"/>
+            <class name="com.api.automation.tests.UserPatchTests"/>
+            <class name="com.api.automation.tests.UserDeleteTests"/>
+        </classes>
+    </test>
+    
+    <!-- Regression test suite -->
+    <test name="Regression Tests" preserve-order="false">
+        <groups>
+            <run>
+                <include name="regression"/>
+                <include name="critical"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.api.automation.tests.UserGetTests"/>
+            <class name="com.api.automation.tests.UserPostTests"/>
+            <class name="com.api.automation.tests.UserPatchTests"/>
+            <class name="com.api.automation.tests.UserDeleteTests"/>
+        </classes>
+    </test>
+    
+</suite>
