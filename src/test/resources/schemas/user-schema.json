@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "User Response Schema",
+  "description": "Schema for validating single user API response",
+  "required": [
+    "data"
+  ],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "id",
+        "email",
+        "first_name",
+        "last_name",
+        "avatar"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "User ID"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User email address"
+        },
+        "first_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "User last name"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "User avatar URL"
+        },
+        "username": {
+          "type": "string",
+          "description": "Username"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "inactive", "suspended"],
+          "description": "User status"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "admin", "moderator"],
+          "description": "User role"
+        },
+        "is_active": {
+          "type": "boolean",
+          "description": "Whether user is active"
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether email is verified"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "User creation timestamp"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "User last update timestamp"
+        },
+        "last_login": {
+          "type": "string",
+          "format": "date-time",
+          "description": "User last login timestamp"
+        }
+      },
+      "additionalProperties": false
+    },
+    "support": {
+      "type": "object",
+      "description": "Support information",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
